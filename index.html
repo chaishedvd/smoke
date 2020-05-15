@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib.js"></script>
+</head>
+<body>
+    <h3>Smoke Effect</h3>
+    <p>點擊產生煙霧</p>
+    <canvas id="cvs"width="800" height="600" style="border: 1px solid black"></canvas>
+    <script>
+    let ctx=document.querySelector("#cvs").getContext("2d");
+    ctx.canvas.addEventListener("click", function(e){
+        particles.push(
+            new SmokeSystem(e.offsetX, e.offsetY));
+                  
+    });
+    
+    
+    //遊戲起始
+    let particles=[];//遊戲起始
+     //先載入圖片(外部資源)
+     let smokeImage=new Image();
+     smokeImage.src="https://upload.cc/i1/2020/05/15/ruztGs.png";
+     smokeImage.addEventListener("load", function(){
+        //載入後 才開始遊戲
+        
+        window.setInterval(refresh, 10);
+     });
+     
+
+
+    function refresh(){
+ 
+            //更新資料
+            for(let i=0;i<particles.length;i++){
+                let die=particles[i].update();
+                if(die){
+                    particles.splice(i, 1);
+                i--;
+                }
+            }
+          //清空畫面
+          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+          //重畫
+          for(let i=0;i<particles.length;i++){
+            particles[i].render();
+               }
+          }
+          
+
+    </script>
+</body>
+</html>
